@@ -11,12 +11,12 @@ import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaMoon } from "react-icons/fa";
-
-import { useSelector } from 'react-redux'
+import { toggleTheme } from "../redux/theme/themeSlice.js";
+import { useSelector, useDispatch } from "react-redux";
 export default function Header() {
-  console.log("aa");
+  const dispatch = useDispatch();
   const path = useLocation().pathname;
-  const userInfo= useSelector(state => state.user)
+  const userInfo = useSelector((state) => state.user);
 
   return (
     <Navbar className="border-b-2 ">
@@ -41,7 +41,12 @@ export default function Header() {
         <AiOutlineSearch />
       </Button>
       <div className="flex gap-3 md:order-2">
-        <Button className="w-12 h-10 sm:inline" color="gray" pill>
+        <Button
+          className="w-12 h-10 sm:inline"
+          color="gray"
+          pill
+          onClick={() => dispatch(toggleTheme())}
+        >
           <FaMoon />
         </Button>
         {userInfo ? (
@@ -49,11 +54,17 @@ export default function Header() {
             arrowIcon={false}
             inline
             label={
-              <Avatar alt="user" img={userInfo.user.currentUser.googlePhotoUrl} rounded />
+              <Avatar
+                alt="user"
+                img={userInfo.user.currentUser.googlePhotoUrl}
+                rounded
+              />
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm ">@{userInfo.user.currentUser.username}</span>
+              <span className="block text-sm ">
+                @{userInfo.user.currentUser.username}
+              </span>
               <span className="block text-sm  font-medium truncate">
                 @{userInfo.user.currentUser.email}
               </span>
@@ -61,12 +72,12 @@ export default function Header() {
 
             <Dropdown.Header>
               <Link to="/dashboard">
-              <Dropdown.Item>Profile</Dropdown.Item>
+                <Dropdown.Item>Profile</Dropdown.Item>
               </Link>
             </Dropdown.Header>
             <Dropdown.Divider />
-<Dropdown.Header>
-            <Dropdown.Item>Sign out</Dropdown.Item>
+            <Dropdown.Header>
+              <Dropdown.Item>Sign out</Dropdown.Item>
             </Dropdown.Header>
           </Dropdown>
         ) : (
