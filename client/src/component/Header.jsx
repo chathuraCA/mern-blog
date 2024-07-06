@@ -17,7 +17,7 @@ export default function Header() {
   const dispatch = useDispatch();
   const path = useLocation().pathname;
   const userInfo = useSelector((state) => state.user);
-
+  console.log(userInfo ? 'n' :'B') ;
   return (
     <Navbar className="border-b-2 ">
       <Link
@@ -49,17 +49,18 @@ export default function Header() {
         >
           <FaMoon />
         </Button>
-        {userInfo ? (
+        
+        {userInfo.user.currentUser===null ? (
+            <Link to="/sign-in">
+            <Button gradientDuoTone="purpleToBlue" outline>
+              Sign in
+            </Button>
+          </Link>
+        ) : (
           <Dropdown
             arrowIcon={false}
             inline
-            label={
-              <Avatar
-                alt="user"
-                img={userInfo.user.currentUser.googlePhotoUrl}
-                rounded
-              />
-            }
+            label={<Avatar alt="user" img={userInfo.googlePhotoUrl} rounded />}
           >
             <Dropdown.Header>
               <span className="block text-sm ">
@@ -80,12 +81,7 @@ export default function Header() {
               <Dropdown.Item>Sign out</Dropdown.Item>
             </Dropdown.Header>
           </Dropdown>
-        ) : (
-          <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign in
-            </Button>
-          </Link>
+        
         )}
 
         <Navbar.Toggle />
